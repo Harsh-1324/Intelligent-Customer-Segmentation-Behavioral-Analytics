@@ -155,23 +155,17 @@ with st.sidebar:
     )
 
     st.markdown("---")
-    # Backend Status indicator
-    api_url = st.text_input("FastAPI Endpoint", value="http://127.0.0.1:8000")
-    backend_online = False
-    try:
-        r = requests.get(f"{api_url}/health", timeout=1.0)
-        if r.status_code == 200 and r.json().get("status") == "healthy":
-            backend_online = True
-    except Exception:
-        backend_online = False
-
-    if backend_online:
-        st.success("🟢 FastAPI Backend Connected")
-    else:
-        st.info("🟡 Standalone Mode (Direct Artifacts)")
-
-    st.markdown("---")
     st.caption("CelebrateIQ Analytics Platform v1.0")
+
+# Internal backend check (silent, non-UI)
+api_url = os.getenv("FASTAPI_URL", "http://127.0.0.1:8000")
+backend_online = False
+try:
+    r = requests.get(f"{api_url}/health", timeout=0.5)
+    if r.status_code == 200 and r.json().get("status") == "healthy":
+        backend_online = True
+except Exception:
+    backend_online = False
 
 if not artifacts.get("loaded", False):
     st.error(f"⚠️ Model artifacts not found: {artifacts.get('error')}. Please run `python training/train_clustering.py` first.")
