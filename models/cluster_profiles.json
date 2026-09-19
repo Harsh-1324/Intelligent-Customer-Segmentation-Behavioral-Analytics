@@ -1,0 +1,127 @@
+{
+  "0": {
+    "cluster_id": 0,
+    "segment_name": "Corporate & Recurring Event Planners",
+    "tier": "Gold",
+    "persona": "Corporate & High-Frequency Organizers",
+    "customer_count": 906,
+    "customer_percentage": 15.1,
+    "description": "B2B and corporate event organizers booking recurring conferences, offsites, and team celebrations with steady volume and high lifetime value.",
+    "metrics": {
+      "avg_spend_inr": 1985060.83,
+      "avg_booking_value_inr": 186949.6,
+      "avg_orders": 10.74,
+      "avg_frequency_monthly": 0.394,
+      "avg_recency_days": 17.3,
+      "avg_discount_usage": 0.409,
+      "avg_engagement_score": 42.98,
+      "avg_abandonment_rate": 0.337
+    },
+    "strategies": [
+      "Deploy dedicated account management and B2B corporate billing agreements",
+      "Offer multi-event volume rebates and annual retainer packages",
+      "Automate recurring vendor invoicing and bulk caterer coordination",
+      "Deliver priority customer support SLA (< 15 min response time)"
+    ]
+  },
+  "1": {
+    "cluster_id": 1,
+    "segment_name": "At-Risk / Lapsed Inactive Planners",
+    "tier": "At-Risk",
+    "persona": "Dormant & Churn-Risk Users",
+    "customer_count": 965,
+    "customer_percentage": 16.1,
+    "description": "Previously engaged customers with no recent inquiries or bookings for 100+ days and declining platform visits.",
+    "metrics": {
+      "avg_spend_inr": 106593.03,
+      "avg_booking_value_inr": 67131.0,
+      "avg_orders": 1.6,
+      "avg_frequency_monthly": 0.078,
+      "avg_recency_days": 186.4,
+      "avg_discount_usage": 0.516,
+      "avg_engagement_score": 6.83,
+      "avg_abandonment_rate": 0.802
+    },
+    "strategies": [
+      "Launch automated WhatsApp re-engagement with 'Planning your next celebration?' touchpoint",
+      "Offer limited-time reactivation perks (\u20b95,000 venue credit)",
+      "Send seasonal celebration calendars (Diwali, New Year, Wedding Muhurat dates)",
+      "Gather quick feedback survey to identify drop-off pain points"
+    ]
+  },
+  "2": {
+    "cluster_id": 2,
+    "segment_name": "High-Value Destination Celebrants",
+    "tier": "Platinum",
+    "persona": "Luxury & Destination Wedding Planners",
+    "customer_count": 1048,
+    "customer_percentage": 17.5,
+    "description": "Premium customers planning grand celebrations, destination weddings, and luxury banquets. Insensitive to discounts, high conversion when provided bespoke concierge.",
+    "metrics": {
+      "avg_spend_inr": 2349937.27,
+      "avg_booking_value_inr": 663641.35,
+      "avg_orders": 3.56,
+      "avg_frequency_monthly": 0.17,
+      "avg_recency_days": 25.0,
+      "avg_discount_usage": 0.18,
+      "avg_engagement_score": 36.48,
+      "avg_abandonment_rate": 0.284
+    },
+    "strategies": [
+      "Assign dedicated VIP Wedding Concierge & private venue tours in Lonavala/Alibaug",
+      "Offer premium curated vendor packages (luxury decorators, celebrity photographers)",
+      "Provide priority calendar hold on top-tier 5-star banquet lawns",
+      "Do not offer blanket discount codes; focus on exclusive value-add amenities"
+    ]
+  },
+  "3": {
+    "cluster_id": 3,
+    "segment_name": "Active Intimate Celebration Organizers",
+    "tier": "Bronze",
+    "persona": "Core Steady Celebrants",
+    "customer_count": 1525,
+    "customer_percentage": 25.4,
+    "description": "Regular individuals planning anniversaries, engagements, and local family functions. Steady engagement and healthy booking conversion.",
+    "metrics": {
+      "avg_spend_inr": 537845.8,
+      "avg_booking_value_inr": 141262.33,
+      "avg_orders": 3.85,
+      "avg_frequency_monthly": 0.196,
+      "avg_recency_days": 28.9,
+      "avg_discount_usage": 0.37,
+      "avg_engagement_score": 27.56,
+      "avg_abandonment_rate": 0.42
+    },
+    "strategies": [
+      "Showcase curated local verified vendors in Mumbai, Pune, and Nashik",
+      "Recommend customizable catering and photography add-ons",
+      "Offer flexible EMI or staged milestone payment plans",
+      "Encourage reviews and referral bonuses for upcoming family celebrations"
+    ]
+  },
+  "4": {
+    "cluster_id": 4,
+    "segment_name": "At-Risk / Lapsed Inactive Planners",
+    "tier": "At-Risk",
+    "persona": "Dormant & Churn-Risk Users",
+    "customer_count": 1556,
+    "customer_percentage": 25.9,
+    "description": "Previously engaged customers with no recent inquiries or bookings for 100+ days and declining platform visits.",
+    "metrics": {
+      "avg_spend_inr": 73247.25,
+      "avg_booking_value_inr": 36300.49,
+      "avg_orders": 2.0,
+      "avg_frequency_monthly": 0.217,
+      "avg_recency_days": 43.2,
+      "avg_discount_usage": 0.762,
+      "avg_engagement_score": 14.7,
+      "avg_abandonment_rate": 0.715
+    },
+    "strategies": [
+      "Launch automated WhatsApp re-engagement with 'Planning your next celebration?' touchpoint",
+      "Offer limited-time reactivation perks (\u20b95,000 venue credit)",
+      "Send seasonal celebration calendars (Diwali, New Year, Wedding Muhurat dates)",
+      "Gather quick feedback survey to identify drop-off pain points"
+    ]
+  }
+}

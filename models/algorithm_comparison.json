@@ -1,0 +1,23 @@
+[
+  {
+    "Algorithm":"K-Means",
+    "Clusters":5,
+    "Silhouette Score":0.32,
+    "Davies-Bouldin Index":1.1974,
+    "Calinski-Harabasz Score":2993.99
+  },
+  {
+    "Algorithm":"DBSCAN",
+    "Clusters":1,
+    "Silhouette Score":0.0,
+    "Davies-Bouldin Index":0.0,
+    "Calinski-Harabasz Score":0.0
+  },
+  {
+    "Algorithm":"Agglomerative Clustering",
+    "Clusters":5,
+    "Silhouette Score":0.3053,
+    "Davies-Bouldin Index":1.242,
+    "Calinski-Harabasz Score":1403.45
+  }
+]
