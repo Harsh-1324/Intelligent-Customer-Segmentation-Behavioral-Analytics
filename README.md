@@ -1,220 +1,364 @@
 # CelebrateIQ | Intelligent Customer Segmentation & Behavioral Analytics Platform
 
-An enterprise-grade unsupervised machine learning platform designed for customer behavioral analytics and automated segmentation within a curated event and celebration marketplace.
+An end-to-end **unsupervised machine learning platform** for customer behavioral analytics and automated segmentation.
 
-The system continuously discovers latent customer groups across transactional, behavioral, and engagement touchpoints without prior labeling, computes optimal cluster configurations, extracts production model artifacts, and serves predictions via a high-performance **FastAPI backend** and an interactive **Streamlit analytics dashboard**.
+CelebrateIQ analyzes transactional, behavioral, and engagement data to discover meaningful customer groups without predefined labels. The trained ML pipeline is integrated with a **FastAPI backend** for inference and an interactive **Streamlit dashboard** for analytics, visualization, and customer segment prediction.
 
 ---
 
-## 1. System Architecture
+## 🚀 Key Features
 
+* Automated customer segmentation using **K-Means clustering**
+* Comparison with **DBSCAN** and **Agglomerative Clustering**
+* RFM-based and engagement-oriented feature engineering
+* Cluster evaluation using:
+
+  * Silhouette Score
+  * Davies-Bouldin Index
+  * Calinski-Harabasz Score
+* PCA-based **2D and 3D cluster visualization**
+* Real-time customer segment prediction
+* Batch customer segmentation using CSV files
+* Interactive analytics dashboard
+* Segment-level behavioral insights
+* REST API-based ML inference using **FastAPI**
+
+---
+
+## 🧩 System Architecture
+
+```text
+                         ┌──────────────────────────┐
+                         │    Streamlit Dashboard   │
+                         │ Analytics & Prediction   │
+                         └────────────┬─────────────┘
+                                      │
+                                      ▼
+                         ┌──────────────────────────┐
+                         │     FastAPI Backend      │
+                         │     REST API / Inference │
+                         └────────────┬─────────────┘
+                                      │
+                                      ▼
+                         ┌──────────────────────────┐
+                         │    ML Inference Engine   │
+                         │ Scaling + Clustering     │
+                         └────────────┬─────────────┘
+                                      │
+                                      ▼
+                         ┌──────────────────────────┐
+                         │   Trained ML Artifacts   │
+                         │ Model + Preprocessing    │
+                         └──────────────────────────┘
 ```
-                                +--------------------------------------------+
-                                |             Streamlit Dashboard            |
-                                |  (Executive, 2D/3D PCA, Segmentation, CSV) |
-                                +---------------------+----------------------+
-                                                      |
-                                                      | HTTP / Direct Fallback
-                                                      v
-                                +--------------------------------------------+
-                                |            FastAPI REST Backend            |
-                                |    (/segment, /batch-segment, /cluster)    |
-                                +---------------------+----------------------+
-                                                      |
-                         +----------------------------+----------------------------+
-                         |                                                         |
-                         v                                                         v
-          +-----------------------------+                           +-----------------------------+
-          |     Feature Preprocessing   |                           |       Inference Engine      |
-          |  (RFM & Engagement Signals) |                           |    (StandardScaler + PCA)   |
-          +--------------+--------------+                           +--------------+--------------+
-                         |                                                         |
-                         +----------------------------+----------------------------+
-                                                      |
-                                                      v
-                                        +---------------------------+
-                                        |   Trained Model Artifacts |
-                                        |    - clustering_model.pkl |
-                                        |    - scaler.pkl           |
-                                        |    - pca.pkl / pca_3d.pkl |
-                                        |    - cluster_profiles.json|
-                                        +---------------------------+
+
+---
+
+## 🎯 Business Problem
+
+Event and celebration marketplaces serve customers with very different behaviors, spending patterns, engagement levels, and booking frequencies.
+
+Treating all customers uniformly can make it difficult to identify:
+
+* High-value customers
+* Frequent or recurring planners
+* Price-sensitive customers
+* Highly engaged customers
+* Customers showing signs of inactivity
+
+CelebrateIQ addresses this problem by using **unsupervised machine learning** to automatically discover behavioral customer segments and provide actionable insights for customer engagement and retention.
+
+---
+
+## 🧠 Machine Learning Pipeline
+
+The platform follows an end-to-end unsupervised learning workflow:
+
+```text
+Customer Data
+      ↓
+Data Exploration
+      ↓
+Feature Engineering
+      ↓
+RFM & Engagement Features
+      ↓
+Feature Scaling
+      ↓
+Clustering Algorithms
+      ↓
+Cluster Evaluation
+      ↓
+Optimal Model Selection
+      ↓
+PCA Visualization
+      ↓
+Customer Segment Prediction
 ```
 
----
+### Feature Engineering
 
-## 2. Business Problem & Objective
+The model uses behavioral features derived from customer activity, including:
 
-Event planning marketplaces (connecting celebration hosts with venues, decorators, caterers, and photographers across top celebration destinations) manage diverse user segments:
-- **Luxury Destination Wedding Couples**: High budget, low price sensitivity, long planning cycles.
-- **Corporate Event Organizers**: Frequent recurring bookings, high cadence, strict SLA expectations.
-- **Budget-Conscious Celebrants**: Birthday/intimate party organizers seeking maximum value and package discounts.
-- **Active Intimate Planners**: Moderate spend, high vendor inquiry rate, steady conversion.
-- **At-Risk / Lapsed Accounts**: High recency (100+ days inactive), incomplete shortlists, churn risk.
+* **Recency** — time since the customer's recent activity
+* **Frequency** — booking activity relative to customer tenure
+* **Monetary Value** — total spending and average order value
+* **Engagement Signals** — visits, sessions, inquiries, and wishlist activity
+* **Discount Dependency**
+* **Shortlist-to-Booking Behavior**
 
-Treating all leads uniformly leads to low conversion and inefficient ad spend. This platform automates behavioral grouping and generates tailored marketing strategies for each segment.
-
----
-
-## 3. Machine Learning Pipeline
-
-### Data & Feature Engineering
-From transactional history and web/mobile touchpoints, the pipeline engineers composite behavioral indicators:
-1. **Recency ($R$)**: Days since last vendor inquiry or booking.
-2. **Frequency ($F$)**: Booking velocity normalized by tenure: $\text{Frequency} = \frac{\text{Total Bookings}}{\max(\text{Tenure Months}, 1)}$.
-3. **Monetary ($M$)**: Total gross booking spend (INR ₹) and Average Order Value ($\text{AOV}$).
-4. **Composite Engagement Score**: Weighted conversion intent signal:
-   $$\text{Engagement} = 0.20 \times \text{Visits} + 0.30 \times \text{App Sessions} + 0.35 \times \text{WhatsApp Inquiries} + 0.15 \times \text{Wishlist}$$
-5. **Discount Dependency**: Ratio of discounted bookings to total bookings.
-6. **Shortlist Conversion Ratio**: Conversion rate from venue shortlist additions to confirmed bookings.
-
-### Clustering Algorithms & Evaluation
-- **K-Means**: Baseline partitioning model. The optimal $K=5$ is verified using the **Elbow Method (WCSS)** and **Silhouette Coefficient Analysis**.
-- **DBSCAN**: Density-based clustering isolating core dense clusters from boundary noise and anomalies.
-- **Agglomerative Hierarchical Clustering**: Bottom-up agglomeration using Ward linkage and dendrogram trees.
-- **Cluster Evaluation Metrics**:
-  - **Silhouette Score**: Measures intra-cluster cohesion vs inter-cluster separation ($[-1, 1]$).
-  - **Davies-Bouldin Index**: Lower values indicate better separation between clusters.
-  - **Calinski-Harabasz Score**: Ratio of between-cluster to within-cluster variance (higher is better).
-
-### Dimensionality Reduction
-High-dimensional behavioral vectors are projected using **Principal Component Analysis (PCA)** into 2D and 3D coordinate spaces for interactive visualization and centroid distance estimation.
+These features are transformed and scaled before being passed to the clustering models.
 
 ---
 
-## 4. Discovered Customer Segments
+## 🔬 Clustering Approach
 
-| Cluster ID | Segment Name | Tier | Characteristics | Tactical Strategy |
-| :--- | :--- | :--- | :--- | :--- |
-| **0** | **High-Value Destination Celebrants** | Platinum | High spend (> ₹10L), high AOV, low discount sensitivity | Dedicated VIP Wedding Concierge, private venue tours in Lonavala/Alibaug, no discount codes |
-| **1** | **Corporate & Recurring Event Planners** | Gold | High booking cadence (> 10/yr), moderate spend, high app usage | Multi-event volume retainers, consolidated GST billing, dedicated account manager |
-| **2** | **Budget-Conscious Occasional Celebrants** | Silver | Low spend (< ₹75k), high discount dependency (> 60%), high abandonment | Flash venue discounts, bundled starter party packages under ₹1,00,000, EMI options |
-| **3** | **Active Intimate Celebration Organizers** | Bronze | Moderate spend, high vendor shortlist interactions, low cancellations | Curated local verified vendor packages, planning checklist guides, milestone payments |
-| **4** | **At-Risk / Lapsed Inactive Planners** | At-Risk | High recency (> 150 days), declining sessions, high drop-off | Automated WhatsApp win-back campaigns, ₹5,000 celebration credits, drop-off surveys |
+### K-Means
+
+K-Means is used as the primary segmentation algorithm to group customers based on behavioral similarity.
+
+The number of clusters is evaluated using techniques such as:
+
+* **Elbow Method**
+* **Silhouette Analysis**
+
+### Additional Algorithms
+
+The project also evaluates:
+
+* **DBSCAN** — density-based clustering and anomaly identification
+* **Agglomerative Clustering** — hierarchical bottom-up clustering
+
+### Evaluation Metrics
+
+Cluster quality is analyzed using:
+
+| Metric                  | Purpose                                              |
+| ----------------------- | ---------------------------------------------------- |
+| Silhouette Score        | Measures cluster cohesion and separation             |
+| Davies-Bouldin Index    | Evaluates similarity between clusters                |
+| Calinski-Harabasz Score | Measures between-cluster and within-cluster variance |
 
 ---
 
-## 5. Repository Structure
+## 📊 Customer Segments
 
-```
+The model identifies behavioral groups such as:
+
+| Segment                        | Behavioral Profile                                  |
+| ------------------------------ | --------------------------------------------------- |
+| **High-Value Customers**       | Higher spending with strong engagement              |
+| **Recurring Event Planners**   | Frequent bookings and consistent activity           |
+| **Budget-Conscious Customers** | Lower spending with stronger price sensitivity      |
+| **Active Planners**            | Moderate spending with high interaction             |
+| **At-Risk Customers**          | Declining activity and longer periods of inactivity |
+
+These segments can be used to support targeted engagement, retention, and customer analytics.
+
+---
+
+## 📈 Interactive Dashboard
+
+The Streamlit dashboard provides multiple analytics and prediction views:
+
+### 1. Executive Dashboard
+
+* Customer and segment KPIs
+* Segment distribution
+* Revenue-level insights
+
+### 2. Customer Segmentation
+
+* Interactive customer input
+* Predefined customer personas
+* Instant segment prediction
+
+### 3. Cluster Visualization
+
+* Interactive **2D PCA visualization**
+* Interactive **3D PCA visualization**
+* Cluster-level exploration
+
+### 4. Segment Comparison
+
+* Comparative behavioral analysis
+* RFM-based visual comparisons
+
+### 5. Clustering Evaluation
+
+* Elbow analysis
+* Silhouette analysis
+* Algorithm comparison
+
+### 6. Business Insights
+
+* Segment-level behavioral insights
+* Customer engagement recommendations
+
+### 7. Batch Segmentation
+
+* CSV upload
+* Multiple customer predictions
+* Segmented dataset export
+
+---
+
+## 🛠️ Technology Stack
+
+### Programming
+
+* Python
+
+### Machine Learning
+
+* Scikit-learn
+* K-Means
+* DBSCAN
+* Agglomerative Clustering
+* PCA
+
+### Data Processing
+
+* Pandas
+* NumPy
+
+### Backend
+
+* FastAPI
+* Pydantic
+* Uvicorn
+
+### Frontend & Visualization
+
+* Streamlit
+* Plotly
+
+### Model Persistence
+
+* Joblib / Pickle
+
+### Development
+
+* Git
+* GitHub
+
+---
+
+## 📁 Project Structure
+
+```text
 Intelligent-Customer-Segmentation-Behavioral-Analytics/
 │
-├── data/
-│   ├── generate_dataset.py          # Realistic customer transaction & engagement generator
-│   └── customer_data.csv            # 6,000+ synthesized records across Maharashtra destinations
+├── data/              # Dataset generation and data processing
+├── notebooks/         # EDA, feature engineering and clustering analysis
+├── training/          # Model training and evaluation pipelines
+├── models/            # Trained ML artifacts
+├── backend/           # FastAPI application and inference logic
+├── frontend/          # Streamlit analytics dashboard
+├── utils/             # Visualization and helper utilities
+├── outputs/           # Segmented customer outputs
 │
-├── notebooks/
-│   ├── 01_EDA.ipynb                 # Exploratory data analysis, distributions & correlation heatmaps
-│   ├── 02_Feature_Engineering.ipynb # Behavioral RFM derivation, composite engagement & scaling
-│   └── 03_Clustering.ipynb          # K-Means, DBSCAN, Agglomerative, PCA & metric comparison
-│
-├── training/
-│   ├── preprocessing.py             # Feature engineering functions and StandardScaler fitting
-│   ├── evaluate_clusters.py         # Silhouette, Davies-Bouldin, CH score and benchmark table
-│   ├── cluster_profiling.py         # Centroid statistics, dynamic naming and strategies
-│   └── train_clustering.py          # End-to-end training pipeline exporting models
-│
-├── models/
-│   ├── clustering_model.pkl         # Trained optimal K-Means model
-│   ├── scaler.pkl                   # Fitted StandardScaler
-│   ├── pca.pkl                      # 2-component PCA projection
-│   ├── pca_3d.pkl                   # 3-component PCA projection
-│   ├── feature_columns.pkl          # Training feature schema
-│   ├── cluster_profiles.json        # Segment metadata and operational playbooks
-│   ├── evaluation_curves.json       # Elbow WCSS & Silhouette curves across K=2..8
-│   └── algorithm_comparison.json    # Benchmark metrics across clustering algorithms
-│
-├── backend/
-│   ├── app.py                       # FastAPI REST application
-│   ├── schemas.py                   # Pydantic request/response validation schemas
-│   ├── predictor.py                 # Artifact loader and real-time inference manager
-│   └── preprocessing.py             # Real-time feature transformer
-│
-├── frontend/
-│   └── streamlit_app.py             # 7-page executive analytics dashboard & predictor
-│
-├── utils/
-│   ├── visualization.py             # Plotly 2D/3D PCA charts, radar comparison & donut charts
-│   ├── clustering.py                # Distance and prediction helper utilities
-│   └── recommendations.py           # Domain-specific business recommendation engine
-│
-├── outputs/
-│   └── segmented_customers.csv      # Customer dataset annotated with clusters and PCA coordinates
-│
-├── requirements.txt                 # Python package dependencies
-├── .gitignore                       # Standard git ignore configurations
-└── README.md                        # Project documentation
+├── requirements.txt
+├── .gitignore
+└── README.md
 ```
 
 ---
 
-## 6. Installation & Execution Guide
+## ⚙️ Local Setup
 
 ### Prerequisites
-- Python 3.9+
-- Virtual environment (recommended)
 
-### 1. Environment Setup
+* Python 3.9+
+* pip
+* Virtual environment (recommended)
+
+### 1. Clone the Repository
+
 ```bash
-# Clone the repository
-git clone https://github.com/Harsh-1324/Intelligent-Customer-Segmentation-Behavioral-Analytics.git
+git clone <repository-url>
 cd Intelligent-Customer-Segmentation-Behavioral-Analytics
+```
 
-# Create and activate virtual environment
+### 2. Create a Virtual Environment
+
+**Windows**
+
+```bash
 python -m venv venv
-# On Windows:
 venv\Scripts\activate
-# On Linux/macOS:
-source venv/bin/activate
+```
 
-# Install dependencies
+**Linux / macOS**
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Generate Data & Train Clustering Models
-```bash
-# 1. Generate 6,000 realistic customer records
-python data/generate_dataset.py
+### 4. Generate Data & Train the Model
 
-# 2. Train K-Means, evaluate algorithms, generate profiles, and export artifacts
+```bash
+python data/generate_dataset.py
 python training/train_clustering.py
 ```
 
-### 3. Launch FastAPI Backend Service
+### 5. Start the FastAPI Backend
+
 ```bash
-uvicorn backend.app:app --host 127.0.0.1 --port 8000 --reload
+uvicorn backend.app:app --reload
 ```
-Interactive Swagger documentation is available at:
-`http://127.0.0.1:8000/docs`
 
-#### REST Endpoints:
-- `GET /health`: Health status and artifact verification.
-- `GET /cluster-info`: Segment profiles, centroid averages, and marketing recommendations.
-- `POST /segment`: Single customer prediction payload returning cluster ID, distance to centroid, and tailored playbook.
-- `POST /batch-segment`: Multipart CSV upload returning annotated CSV for download.
+### 6. Start the Streamlit Dashboard
 
-### 4. Launch Streamlit Analytics Dashboard
 ```bash
 streamlit run frontend/streamlit_app.py
 ```
-The dashboard features:
-1. **Executive Dashboard**: KPI metrics, segment distribution, revenue share.
-2. **Customer Segmentation**: Interactive form with preset personas and instant prediction card.
-3. **Cluster 2D/3D Visualizer**: Interactive Plotly PCA projections with cluster toggles.
-4. **Segment Comparison**: Multi-cluster radar comparisons across RFM metrics.
-5. **Clustering Evaluation**: Elbow curve, Silhouette analysis, and benchmark table.
-6. **Business Insights & Playbook**: Channel, priority, and tactics for every customer segment.
-7. **Batch CSV Segmentation**: Drag-and-drop CSV processing and 1-click export.
 
 ---
 
-## 7. Limitations & Future Scope
+## 📦 Dataset
 
-### Limitations
-- K-Means assumes spherical cluster variance, which can slightly oversimplify complex multi-modal consumer behaviors.
-- Temporal seasonality (e.g. peak Indian wedding season from November to February) is currently captured through static recency rather than dynamic time-series sequences.
+The project uses a **synthetically generated customer dataset** designed to simulate transactional, behavioral, and engagement patterns within an event and celebration marketplace.
 
-### Future Scope
-- **Sequence Modeling (RNN/Transformers)**: Incorporating sequential customer clickstream trajectories to predict next celebration milestones.
-- **Automated CRM Webhooks**: Direct integration with WhatsApp Business API and customer communication channels (Braze / MoEngage) to trigger automated win-back workflows.
-- **Semi-Supervised Active Learning**: Allowing business relationship managers to provide feedback on borderline customer segment assignments to refine boundary thresholds.
+No real customer information or personally identifiable information is used.
+
+---
+
+## ⚠️ Limitations
+
+* K-Means assumes relatively compact and spherical clusters, which may not fully represent complex customer behavior.
+* The current implementation primarily uses static behavioral features rather than sequential customer activity.
+* Synthetic data may not capture all patterns present in real-world customer populations.
+
+---
+
+## 🔮 Future Scope
+
+* Sequence-based customer behavior modeling using RNNs or Transformers
+* Real-time customer behavior and segmentation updates
+* CRM and communication-platform integrations
+* Feedback-driven or semi-supervised customer segmentation
+* Advanced customer lifetime value and churn analytics
+
+---
+
+## 🎓 Project Outcome
+
+CelebrateIQ demonstrates an end-to-end machine learning workflow:
+
+**Data Generation → Feature Engineering → Unsupervised Learning → Model Evaluation → Model Deployment → API Integration → Interactive Analytics**
+
+The project combines **machine learning, backend API development, data visualization, and business analytics** into a single deployable application.
+
+---
+
+## 📌 Disclaimer
+
+This project is intended for **educational, demonstration, and portfolio purposes**. The dataset is synthetic and does not represent real customer data.
