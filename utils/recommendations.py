@@ -1,5 +1,5 @@
 """
-Business recommendation engine tailored for Pheraas event & wedding marketplace.
+Business recommendation engine tailored for curated event & celebration marketplace.
 Decoupled recommendation logic translating cluster profiles and individual customer signals
 into tactical marketing playbooks.
 """
@@ -26,9 +26,9 @@ def get_actionable_recommendations(
         channel = "Dedicated Relationship Manager / VIP Phone Concierge"
         primary_campaign = "Exclusive Luxury Destination Showcase"
         actions = [
-            f"Schedule an in-person or 1-on-1 virtual venue tour for luxury venues (Lonavala villas, Alibaug sea-facing lawns, 5-star Mumbai banquets).",
+            f"Schedule an in-person or 1-on-1 virtual venue tour for luxury venues (Lonavala villas, Alibaug sea-facing lawns, 5-star banquets).",
             f"Introduce complimentary tasting session with premier catering partners.",
-            f"Assign a senior Pheraas event specialist to handle end-to-end vendor negotiation.",
+            f"Assign a senior event concierge specialist to handle end-to-end vendor negotiation.",
             f"Avoid generic discount coupons; offer value enhancements such as complimentary bridal suite or drone photography."
         ]
 
@@ -72,7 +72,7 @@ def get_actionable_recommendations(
         actions = [
             f"Recommend top-rated local decorators and candid photographers in their home city.",
             f"Send tailored checklist for their specific celebration: '{event_type} Planning Guide'.",
-            f"Invite to join the Pheraas referral club to earn credits for future family celebrations.",
+            f"Invite to join the Celebration Loyalty Club to earn credits for future family celebrations.",
             f"Highlight customer reviews and photo galleries from recently hosted events."
         ]
 

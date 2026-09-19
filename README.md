@@ -1,6 +1,6 @@
-# Intelligent Customer Segmentation & Behavioral Analytics Platform
+# CelebrateIQ | Intelligent Customer Segmentation & Behavioral Analytics Platform
 
-An enterprise-grade unsupervised machine learning platform designed for customer behavioral analytics and automated segmentation within an event and wedding planning marketplace (**Pheraas** by Skillminds LLP).
+An enterprise-grade unsupervised machine learning platform designed for customer behavioral analytics and automated segmentation within a curated event and celebration marketplace.
 
 The system continuously discovers latent customer groups across transactional, behavioral, and engagement touchpoints without prior labeling, computes optimal cluster configurations, extracts production model artifacts, and serves predictions via a high-performance **FastAPI backend** and an interactive **Streamlit analytics dashboard**.
 
@@ -45,7 +45,7 @@ The system continuously discovers latent customer groups across transactional, b
 
 ## 2. Business Problem & Objective
 
-Event planning marketplaces (such as Pheraas, connecting celebration hosts with venues, decorators, caterers, and photographers across Mumbai, Pune, Lonavala, Alibaug, and Nashik) manage diverse user segments:
+Event planning marketplaces (connecting celebration hosts with venues, decorators, caterers, and photographers across top celebration destinations) manage diverse user segments:
 - **Luxury Destination Wedding Couples**: High budget, low price sensitivity, long planning cycles.
 - **Corporate Event Organizers**: Frequent recurring bookings, high cadence, strict SLA expectations.
 - **Budget-Conscious Celebrants**: Birthday/intimate party organizers seeking maximum value and package discounts.

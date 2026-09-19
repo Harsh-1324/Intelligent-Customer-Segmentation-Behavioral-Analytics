@@ -20,7 +20,7 @@ from backend.predictor import predictor
 
 app = FastAPI(
     title="Intelligent Customer Segmentation API",
-    description="Production ML inference backend for Pheraas Event & Celebration Analytics Platform.",
+    description="Production ML inference backend for Curated Celebration & Event Analytics Platform.",
     version="1.0.0"
 )
 

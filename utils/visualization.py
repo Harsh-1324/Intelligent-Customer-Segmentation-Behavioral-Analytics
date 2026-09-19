@@ -8,7 +8,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-# Professional palette aligned with Pheraas event theme (Rose gold, Wine, Navy, Gold, Teal)
+# Professional celebration palette (Rose gold, Wine, Navy, Gold, Teal)
 CLUSTER_PALETTE = [
     "#E63946",  # Vibrant Red / Rose
     "#2A9D8F",  # Teal

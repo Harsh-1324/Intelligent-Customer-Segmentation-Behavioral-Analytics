@@ -1,5 +1,5 @@
 """
-Pheraas Intelligent Customer Segmentation & Behavioral Analytics Platform
+CelebrateIQ | Intelligent Customer Segmentation & Behavioral Analytics Platform
 Streamlit Analytics Dashboard (Multi-Page Interactive Application)
 """
 
@@ -31,7 +31,7 @@ from backend.schemas import CustomerInput
 
 # Page Configuration
 st.set_page_config(
-    page_title="Pheraas | Customer Segmentation & Behavioral Analytics",
+    page_title="CelebrateIQ | Customer Segmentation & Behavioral Analytics",
     page_icon="✨",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -137,8 +137,8 @@ artifacts = load_project_artifacts()
 
 # Sidebar Navigation & Platform Info
 with st.sidebar:
-    st.image("https://pheraas.com/favicon.ico", width=40) if os.path.exists("pheraas.ico") else st.markdown("### 💍 **PHERAAS**")
-    st.markdown("**Curated Event & Wedding Platform**  \n*Customer Behavioral Intelligence*")
+    st.markdown("### ✨ **CelebrateIQ**")
+    st.markdown("**Curated Event & Celebration Platform**  \n*Customer Behavioral Intelligence*")
     st.markdown("---")
 
     selected_page = st.radio(
@@ -171,7 +171,7 @@ with st.sidebar:
         st.info("🟡 Standalone Mode (Direct Artifacts)")
 
     st.markdown("---")
-    st.caption("Pheraas Analytics Platform v1.0  \nSkillminds LLP")
+    st.caption("CelebrateIQ Analytics Platform v1.0")
 
 if not artifacts.get("loaded", False):
     st.error(f"⚠️ Model artifacts not found: {artifacts.get('error')}. Please run `python training/train_clustering.py` first.")
@@ -484,7 +484,7 @@ elif selected_page == "📈 Clustering Evaluation":
 # -------------------------------------------------------------
 elif selected_page == "💡 Business Insights & Playbook":
     st.markdown("<div class='main-header'>Actionable Business Strategies & Marketing Playbook</div>", unsafe_allow_html=True)
-    st.markdown("<div class='sub-header'>Operational execution strategies for Pheraas event marketplace to maximize conversion and lifetime value.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='sub-header'>Operational execution strategies for celebration & event marketplace to maximize conversion and lifetime value.</div>", unsafe_allow_html=True)
 
     for cid, prof in profiles.items():
         recs = get_actionable_recommendations(

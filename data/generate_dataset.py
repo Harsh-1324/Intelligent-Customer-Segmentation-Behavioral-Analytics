@@ -1,6 +1,6 @@
 """
-Synthetic Customer Dataset Generator for Pheraas Event & Celebration Platform.
-Generates realistic customer transactional and behavioral data across Maharashtra celebration destinations.
+Synthetic Customer Dataset Generator for Curated Event & Celebration Platform.
+Generates realistic customer transactional and behavioral data across celebration destinations.
 """
 
 import os
@@ -29,7 +29,7 @@ def generate_customer_dataset(num_samples: int = 6000, random_seed: int = 42) ->
     data = []
 
     for i in range(num_samples):
-        cust_id = f"PHR-{10000 + i}"
+        cust_id = f"CUST-{10000 + i}"
         arch = archetypes[i]
         city = np.random.choice(cities, p=city_weights)
         
@@ -60,7 +60,7 @@ def generate_customer_dataset(num_samples: int = 6000, random_seed: int = 42) ->
                 ["Corporate Event", "Festival / Party", "Anniversary Celebration"], 
                 p=[0.75, 0.15, 0.10]
             )
-            tenure_months = int(np.clip(np.random.normal(36, 10), 10, 60))
+            tenure_months = int(np.clip(np.normal(36, 10), 10, 60))
             orders = int(np.clip(np.random.poisson(11), 5, 25))
             avg_order_value = np.clip(np.random.normal(180000, 45000), 75000, 450000)
             total_spend = round(orders * avg_order_value, 2)
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
     output_path = os.path.join(current_dir, "customer_data.csv")
     
-    print(f"Generating realistic customer dataset for Pheraas platform...")
+    print(f"Generating realistic customer dataset for celebration platform...")
     df = generate_customer_dataset(num_samples=6000)
     df.to_csv(output_path, index=False)
     print(f"Dataset successfully created at: {output_path}")
