@@ -4,6 +4,10 @@ An end-to-end **unsupervised machine learning platform** for customer behavioral
 
 CelebrateIQ analyzes transactional, behavioral, and engagement data to discover meaningful customer groups without predefined labels. The trained ML pipeline is integrated with a **FastAPI backend** for inference and an interactive **Streamlit dashboard** for analytics, visualization, and customer segment prediction.
 
+
+---
+Visit the live demo for a better understanding of the project's features and interactive insights:
+https://intelligent-customer-segmentation-behavioral-analytics-7e6mssy.streamlit.app/
 ---
 
 ## 🚀 Key Features
