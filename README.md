@@ -269,80 +269,6 @@ Intelligent-Customer-Segmentation-Behavioral-Analytics/
 
 ---
 
-## ⚙️ Local Setup
-
-### Prerequisites
-
-* Python 3.9+
-* pip
-* Virtual environment (recommended)
-
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd Intelligent-Customer-Segmentation-Behavioral-Analytics
-```
-
-### 2. Create a Virtual Environment
-
-**Windows**
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-**Linux / macOS**
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Generate Data & Train the Model
-
-```bash
-python data/generate_dataset.py
-python training/train_clustering.py
-```
-
-### 5. Start the FastAPI Backend
-
-```bash
-uvicorn backend.app:app --reload
-```
-
-### 6. Start the Streamlit Dashboard
-
-```bash
-streamlit run frontend/streamlit_app.py
-```
-
----
-
-## 📦 Dataset
-
-The project uses a **synthetically generated customer dataset** designed to simulate transactional, behavioral, and engagement patterns within an event and celebration marketplace.
-
-No real customer information or personally identifiable information is used.
-
----
-
-## ⚠️ Limitations
-
-* K-Means assumes relatively compact and spherical clusters, which may not fully represent complex customer behavior.
-* The current implementation primarily uses static behavioral features rather than sequential customer activity.
-* Synthetic data may not capture all patterns present in real-world customer populations.
-
----
-
 ## 🔮 Future Scope
 
 * Sequence-based customer behavior modeling using RNNs or Transformers
@@ -362,7 +288,3 @@ CelebrateIQ demonstrates an end-to-end machine learning workflow:
 The project combines **machine learning, backend API development, data visualization, and business analytics** into a single deployable application.
 
 ---
-
-## 📌 Disclaimer
-
-This project is intended for **educational, demonstration, and portfolio purposes**. The dataset is synthetic and does not represent real customer data.
